@@ -1,0 +1,1 @@
+// Moved 'story_writing_checklist.md' into the 'Checklists' directory.
