@@ -2,6 +2,8 @@
 \usepackage[utf8]{inputenc}
 \usepackage{geometry}
 \geometry{a4paper, margin=1in}
+\usepackage{hyperref}
+\usepackage{eforms}
 
 \title{Non-Disclosure Agreement (NDA)}
 \date{}
@@ -10,13 +12,13 @@
 
 \maketitle
 
-\section*{This Agreement is made on \underline{[Date]}}
+\section*{This Agreement is made on \TextField[name=Date,width=2in]{}}
 
 \noindent Between:
 
 \begin{enumerate}
-    \item \textbf{Disclosing Party:} \underline{[Name of Disclosing Party]}, having its principal place of business at \underline{[Address]}.
-    \item \textbf{Receiving Party:} \underline{[Name of Receiving Party]}, having its principal place of business at \underline{[Address]}.
+    \item \textbf{Disclosing Party:} \TextField[name=DisclosingPartyName,width=3in]{} having its principal place of business at \TextField[name=DisclosingPartyAddress,width=3in]{}.
+    \item \textbf{Receiving Party:} \TextField[name=ReceivingPartyName,width=3in]{} having its principal place of business at \TextField[name=ReceivingPartyAddress,width=3in]{}.
 \end{enumerate}
 
 \section*{1. Definition of Confidential Information}
@@ -26,7 +28,7 @@ For the purposes of this Agreement, "Confidential Information" means all informa
 The Receiving Party agrees to:
 \begin{enumerate}
     \item Maintain the confidentiality of the Confidential Information and not disclose it to any third party without the prior written consent of the Disclosing Party.
-    \item Use the Confidential Information solely for the purpose of \underline{[Purpose]}.
+    \item Use the Confidential Information solely for the purpose of \TextField[name=Purpose,width=3in]{}.
     \item Take all reasonable measures to protect the confidentiality of the Confidential Information.
 \end{enumerate}
 
@@ -53,14 +55,14 @@ This Agreement shall be governed by and construed in accordance with the laws of
 
 \vspace{1cm}
 \noindent \textbf{Disclosing Party:} \\
-Name: \underline{[Name]} \\
-Signature: \underline{[Signature]} \\
-Date: \underline{[Date]} \\
+Name: \TextField[name=DisclosingPartySignatureName,width=3in]{} \\
+Signature: \TextField[name=DisclosingPartySignature,width=3in]{} \\
+Date: \TextField[name=DisclosingPartySignatureDate,width=2in]{} \\
 
 \vspace{1cm}
 \noindent \textbf{Receiving Party:} \\
-Name: \underline{[Name]} \\
-Signature: \underline{[Signature]} \\
-Date: \underline{[Date]} \\
+Name: \TextField[name=ReceivingPartySignatureName,width=3in]{} \\
+Signature: \TextField[name=ReceivingPartySignature,width=3in]{} \\
+Date: \TextField[name=ReceivingPartySignatureDate,width=2in]{} \\
 
 \end{document}
