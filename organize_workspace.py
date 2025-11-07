@@ -1,5 +1,6 @@
 import os
 import shutil
+from docx import Document
 
 def organize_workspace(base_dir):
     # Define the folder structure
@@ -34,19 +35,57 @@ def organize_workspace(base_dir):
         if isinstance(contents, dict):
             for subfolder, files in contents.items():
                 subfolder_path = os.path.join(folder_path, subfolder)
-                os.makedirs(subfolder_path, exist_ok=True)
-                for file in files:
-                    src = os.path.join(base_dir, file)
-                    dest = os.path.join(subfolder_path, file)
-                    if os.path.exists(src):
-                        shutil.move(src, dest)
+                if os.path.isfile(subfolder_path):
+                    # Rename the file to avoid conflict
+                    os.rename(subfolder_path, subfolder_path + "_file")
+                if not os.path.exists(subfolder_path):
+                    os.makedirs(subfolder_path, exist_ok=True)
+                if files is not None:  # Skip None values
+                    for file in files:
+                        src = os.path.join(base_dir, file)
+                        dest = os.path.join(subfolder_path, file)
+                        if os.path.exists(src) and not os.path.isdir(src):
+                            if os.path.exists(dest):
+                                # Rename the destination file to avoid overwriting
+                                base, ext = os.path.splitext(dest)
+                                dest = f"{base}_duplicate{ext}"
+                            shutil.move(src, dest)
         else:
             for file in contents:
                 src = os.path.join(base_dir, file)
                 dest = os.path.join(folder_path, file)
-                if os.path.exists(src):
+                if os.path.exists(src) and not os.path.isdir(src):
+                    if os.path.exists(dest):
+                        # Rename the destination file to avoid overwriting
+                        base, ext = os.path.splitext(dest)
+                        dest = f"{base}_duplicate{ext}"
                     shutil.move(src, dest)
 
 if __name__ == "__main__":
     base_directory = "c:\\Users\\user\\j-works\\DanRef"
     organize_workspace(base_directory)
+
+    # Define the directory containing the .docx files
+    docx_dir = r"c:\\Users\\user\\j-works\\DanRef\\Planning\\Interviews"
+
+    # Define the output directory for extracted text
+    output_dir = r"c:\\Users\\user\\j-works\\DanRef\\Planning\\Extracted_Text"
+    os.makedirs(output_dir, exist_ok=True)
+
+    # Function to extract text from a .docx file
+    def extract_text_from_docx(file_path):
+        doc = Document(file_path)
+        return "\n".join([paragraph.text for paragraph in doc.paragraphs])
+
+    # Process each .docx file in the directory
+    for file_name in os.listdir(docx_dir):
+        if file_name.endswith(".docx"):
+            file_path = os.path.join(docx_dir, file_name)
+            extracted_text = extract_text_from_docx(file_path)
+
+            # Save the extracted text to a .txt file
+            output_file_path = os.path.join(output_dir, f"{os.path.splitext(file_name)[0]}.txt")
+            with open(output_file_path, "w", encoding="utf-8") as output_file:
+                output_file.write(extracted_text)
+
+    print("Text extraction complete. Extracted files are saved in:", output_dir)
